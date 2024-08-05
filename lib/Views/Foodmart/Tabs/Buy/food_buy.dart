@@ -51,90 +51,96 @@ class _FoodBuyScreenState extends State<FoodBuyScreen> {
           } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
             return const Center(child: Text('No data available'));
           } else {
-            return GridView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: snapshot.data!.docs.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-              ),
-              itemBuilder: (context, index) {
-                Map<String, dynamic> postMap =
-                    snapshot.data!.docs[index].data() as Map<String, dynamic>;
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  GridView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: snapshot.data!.docs.length,
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                    ),
+                    itemBuilder: (context, index) {
+                      Map<String, dynamic> postMap =
+                          snapshot.data!.docs[index].data() as Map<String, dynamic>;
 
-                return GestureDetector(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ProductView(
-                        image: postMap["foodPic"],
-                        name: postMap["name"],
-                        description: postMap["description"],
-                        address: postMap["address"],
-                        price: postMap["price"],
-                        contact: postMap["contact"],
-                      ),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Container(
-                      height: 194,
-                      width: MediaQuery.of(context).size.height * 0.2,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.white,
-                        boxShadow: [
-                          const BoxShadow(
-                            color: Colors.grey,
-                            spreadRadius: 0.5,
-                            blurRadius: 5,
-                            offset: Offset(-2, 3),
-                          )
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.12,
+                      return GestureDetector(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProductView(
+                              image: postMap["foodPic"],
+                              name: postMap["name"],
+                              description: postMap["description"],
+                              address: postMap["address"],
+                              price: postMap["price"],
+                              contact: postMap["contact"],
+                            ),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Container(
+                            height: 194,
+                            width: MediaQuery.of(context).size.height * 0.2,
                             decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage(postMap["foodPic"]),
-                                fit: BoxFit.fill,
-                              ),
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20),
-                              ),
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.white,
+                              boxShadow: [
+                                const BoxShadow(
+                                  color: Colors.grey,
+                                  spreadRadius: 0.5,
+                                  blurRadius: 5,
+                                  offset: Offset(-2, 3),
+                                )
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  height: MediaQuery.of(context).size.height * 0.12,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: NetworkImage(postMap["foodPic"]),
+                                      fit: BoxFit.fill,
+                                    ),
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 65,
+                                  child: ListTile(
+                                    title: Text(
+                                      postMap["name"],
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: TextStyle(fontWeight: FontWeight.w400),
+                                    ),
+                                    subtitle: Text(
+                                      "Rs.${postMap["price"]}",
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                          color: blueColor,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          SizedBox(
-                            height: 65,
-                            child: ListTile(
-                              title: Text(
-                                postMap["name"],
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style: TextStyle(fontWeight: FontWeight.w400),
-                              ),
-                              subtitle: Text(
-                                "Rs.${postMap["price"]}",
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style: TextStyle(
-                                    color: blueColor,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
+                ],
+              ),
             );
           }
         },
