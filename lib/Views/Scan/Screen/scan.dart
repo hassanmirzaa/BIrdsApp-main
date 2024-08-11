@@ -54,7 +54,7 @@ class _ScanScreenState extends State<ScanScreen> {
     try {
       final request = http.MultipartRequest(
         'POST',
-        Uri.parse('http://192.168.1.104:8000/predict/'), // Your local IP address and port
+        Uri.parse('http://192.168.0.108:8000/predict/'), // Your local IP address and port
       );
       request.files.add(
         await http.MultipartFile.fromPath(
